@@ -77,7 +77,7 @@ export const listSong = async (req, res) =>{
         const artist = await Artist.findById(artistId);
         if (!artist) {
             return res.status(404).json({error: "Artist not found"});}
-        const foundSong  = await Song.findOne({title: song.songName});
+        const foundSong  = await Song.findOne({artistId: artistId});
         if (!foundSong) {
             const newSong = new Song({
                 royaltyPercentage: percentage,
