@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: fave-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+  - type: web
+    name: fave-frontend
+    env: node
+    buildCommand: cd frontend && npm install
+    startCommand: cd frontend && npm start
+    envVars:
+      - key: PORT
+        value: 3001
