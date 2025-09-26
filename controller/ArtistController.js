@@ -93,8 +93,6 @@ export const listSong = async (req, res) =>{
                 return res.status(400).json({error: "Song already exists"});
             }
 
-            await newSong.save();
-
             const tx = new TransactionBlock();
 
             tx.moveCall({
@@ -109,6 +107,7 @@ export const listSong = async (req, res) =>{
                 transactionBlock: tx,
                 options: { showEffects: true },
             });
+            await newSong.save();
             res.json({success: true, message: "Song listed successfully", newSong});
             return result
         }
