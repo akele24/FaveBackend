@@ -96,9 +96,9 @@ export const listSong = async (req, res) =>{
             const tx = new TransactionBlock();
 
             tx.moveCall({
-                target: "0x22ed7f4f5c2c17dbb8b09aadb2e67733d4a1c6e0d777aa1bfeb07d3fe27cc558::songtoken::mint_artist_token",
+                target: "0x20870de7263ba7f2d0271b367e575a4617861935b6850e0829bbecb8cd0b5fb6::songtoken::mint_artist_token",
                 arguments: [
-                    tx.object("0x47eafb01aa4a7042e28e068c8a96ea609e9a2d0a5d660e473b5d51d75ba432e1"),
+                    tx.object("0xa165d5dbd9ab5ecb27959ccc97a1fbb1133126d3b622c230e1e44f66e35ff2e7"),
                     tx.pure.u64(percentage),
                 ],
             });
