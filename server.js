@@ -6,7 +6,7 @@ import artistRouter from "./route/ArtistRoute.js";
 import fanRouter from "./route/FanRoute.js";
 import cors from "cors";
 
-import passport from "./config/passport.js";
+
 import session from "express-session";
 import adminRouter from "./route/AdminRoute.js"
 
@@ -24,8 +24,6 @@ app.use(session({
     }
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 const allowedOrigins = [
     "http://localhost:3000",
