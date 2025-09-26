@@ -83,9 +83,16 @@ export const listSong = async (req, res) =>{
                 royaltyPercentage: percentage,
                 artistId: artistId,
             })
-            if(percentage < 1 || percentage > 100){
-                return res.status(400).json({error: "Percentage should not exceed 100 or less than 1 "});
+            if (!artistId || !percentage) {
+                return res.status(400).json({error: "artistId and percentage are required"});
             }
+            if (percentage < 1 || percentage > 100) {
+                return res.status(400).json({error: "Percentage should not exceed 100 or less than 1"});
+            }
+            if (foundSong) {
+                return res.status(400).json({error: "Song already exists"});
+            }
+
             await newSong.save();
 
             const tx = new TransactionBlock();
