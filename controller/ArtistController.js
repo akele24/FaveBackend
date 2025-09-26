@@ -2,7 +2,7 @@ import Artist from "../data/models/Artist.js";
 import Song from "../data/models/Song.js";
 import Fan from "../data/models/Fan.js";
 import { TransactionBlock } from "@mysten/sui.js/transactions";
-import { signer } from "../middleware/suiClient.js";
+import {signer, suiClient} from "../middleware/suiClient.js";
 
 export const login = async (req, res) => {
     try {
@@ -97,7 +97,8 @@ export const listSong = async (req, res) =>{
                     tx.pure.u64(percentage),
                 ],
             });
-            const result = await signer.signAndExecuteTransactionBlock({
+            const result = await suiClient.signAndExecuteTransactionBlock({
+                signer,
                 transactionBlock: tx,
                 options: { showEffects: true },
             });
