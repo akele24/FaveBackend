@@ -2,7 +2,7 @@ import Artist from "../data/models/Artist.js";
 import Song from "../data/models/Song.js";
 import Fan from "../data/models/Fan.js";
 import { TransactionBlock } from "@mysten/sui.js/transactions";
-// import { provider, signer } from "./client";
+import { signer } from "../middleware/suiClient.js";
 
 export const login = async (req, res) => {
     try {
@@ -74,18 +74,15 @@ export const login = async (req, res) => {
 // };
 export const listSong = async (req, res) =>{
     try{
-        const{artistId,name,address,image_url,percentage,description}= req.body;
+        const{artistId,percentage}= req.body;
         const artist = await Artist.findById(artistId);
         if (!artist) {
             return res.status(404).json({error: "Artist not found"});}
         const foundSong  = await Song.findOne({title: song.songName});
         if (!foundSong) {
             const newSong = new Song({
-                songName: name,
-                imageUrl: image_url,
                 royaltyPercentage: percentage,
                 artistId: artistId,
-                description: description
             })
             if(percentage < 1 || percentage > 100){
                 return res.status(400).json({error: "Percentage should not exceed 100 or less than 1 "});
@@ -93,17 +90,12 @@ export const listSong = async (req, res) =>{
             await newSong.save();
             const tx = new TransactionBlock();
             tx.moveCall({
-                target: "0xYourPackage::yourModule::create_artist_token",
+                target: " 0x22ed7f4f5c2c17dbb8b09aadb2e67733d4a1c6e0d777aa1bfeb07d3fe27cc558::songtoken::mint_artist_token",
                 arguments: [
-                    tx.object(witnessId),                  // SONGTOKEN witness object
-                    tx.pure(percentage, "u64"),            // percentage
-                    tx.pure(Array.from(Buffer.from(symbol)), "vector<u8>"),
-                    tx.pure(Array.from(Buffer.from(name)), "vector<u8>"),
-                    tx.pure(Array.from(Buffer.from(description)), "vector<u8>"),
-                    tx.pure(Array.from(Buffer.from(iconUrl)), "vector<u8>"),
+                    tx.object(" 0x47eafb01aa4a7042e28e068c8a96ea609e9a2d0a5d660e473b5d51d75ba432e1 "),
+                    tx.pure.u64(percentage),
                 ],
             });
-
             const result = await signer.signAndExecuteTransactionBlock({
                 transactionBlock: tx,
                 options: { showEffects: true },
@@ -119,5 +111,4 @@ export const listSong = async (req, res) =>{
         res.status(500).json({success: false, error: "Internal server error"});
     }
 };
-
 export default {login, listSong};
