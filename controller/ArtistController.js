@@ -10,7 +10,6 @@ export const login = async (req, res) => {
         if (!address || !role) {
             return res.status(400).json({ error: "Missing authentication information" });
         }
-
         const artistExists = await Artist.findOne({ suiAddress: address });
         const fanExists = await Fan.findOne({ suiAddress: address });
 
@@ -88,11 +87,13 @@ export const listSong = async (req, res) =>{
                 return res.status(400).json({error: "Percentage should not exceed 100 or less than 1 "});
             }
             await newSong.save();
+
             const tx = new TransactionBlock();
+
             tx.moveCall({
-                target: " 0x22ed7f4f5c2c17dbb8b09aadb2e67733d4a1c6e0d777aa1bfeb07d3fe27cc558::songtoken::mint_artist_token",
+                target: "0x22ed7f4f5c2c17dbb8b09aadb2e67733d4a1c6e0d777aa1bfeb07d3fe27cc558::songtoken::mint_artist_token",
                 arguments: [
-                    tx.object(" 0x47eafb01aa4a7042e28e068c8a96ea609e9a2d0a5d660e473b5d51d75ba432e1 "),
+                    tx.object("0x47eafb01aa4a7042e28e068c8a96ea609e9a2d0a5d660e473b5d51d75ba432e1"),
                     tx.pure.u64(percentage),
                 ],
             });
