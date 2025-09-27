@@ -56,7 +56,7 @@ export const login = async (req, res) => {
 export const buySong = async (req, res) => {
     try {
         const { songId } = req.params;
-        const { buyerAddress, userSalt, decodedJwt, partialZkLoginSignature, maxEpoch, paymentCoinId } = req.body;
+        const { paymentCoinId } = req.body;
 
         const song = await Song.findById(songId);
         if (!song) {
