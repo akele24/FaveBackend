@@ -84,10 +84,10 @@ mongoose
         });
 
         server.on('error', (err) => {
-            console.error('❌ Server error:', err);
+            console.error('Server error:', err);
         });
     })
     .catch((err) => {
-        console.error("❌ MongoDB connection error:", err);
+        console.error("MongoDB connection error:", err);
         process.exit(1);
     });
